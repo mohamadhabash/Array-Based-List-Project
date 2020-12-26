@@ -1,12 +1,14 @@
 #include<iostream>
 #include<string>
 using namespace std;
+
 struct record {
 	int id;
 	string firstname;
 	string lastname;
 	char grade;
 };
+
 class Students {
 	int length;
 	record* Record;

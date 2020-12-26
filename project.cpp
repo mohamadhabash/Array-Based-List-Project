@@ -12,6 +12,7 @@ class Students {
 	record* Record;
 	int maxSize;
 public:
+	//Constructor initializes a new record for each new student
 	Students(int size) {
 		length = 0;
 		(size > 0) ? maxSize = size : maxSize = 100;
@@ -39,6 +40,8 @@ public:
 		Record[i] = r;
 	}
 };
+
+//Returns location in the list of student with a specific ID, returns -1 if student does not exist
 int Search(Students &s, int id) {
 	for (int i = 0; i < s.getLength(); i++) {
 		if (id == s.getRecord(i).id)
@@ -46,6 +49,8 @@ int Search(Students &s, int id) {
 	}
 	return -1;
 }
+
+//Guarantees no two students get the same ID
 bool noDuplicate(Students &s,record r) {
 	int flag = Search(s, r.id);
 	if (flag == -1) {
@@ -53,6 +58,8 @@ bool noDuplicate(Students &s,record r) {
 	}
 	return false;
 }
+
+//Adds a new student to the list and keeping the list sorted by IDs
 void insertSorted(Students &s,record r) {
 	if (noDuplicate(s,r)) {
 		int loc = 0;
@@ -71,6 +78,7 @@ void insertSorted(Students &s,record r) {
 		cout << "Student already exists\n";
 	}
 }
+
 void Insert(Students &s,record r) {
 	if (s.getLength() == s.getMaxSize()) {
 		cout << "list if full\n";
@@ -83,6 +91,8 @@ void Insert(Students &s,record r) {
 		insertSorted(s, r);
 	}
 }
+
+//Removes a student with specific ID from the list
 void Delete(Students &s,int id) {
 	int loc = Search(s, id);
 	if (loc == -1) {
@@ -96,7 +106,10 @@ void Delete(Students &s,int id) {
 			s.setRecord(i, s.getRecord(i + 1));
 		}
 		s.decreaseLength();
-	} }
+	} 
+}
+
+//Gets student with specific ID from the list
 void Retrieve(Students &s,int id) {
 	for (int i = 0; i < s.getLength(); i++) {
 		if (id == s.getRecord(i).id) {
@@ -106,6 +119,8 @@ void Retrieve(Students &s,int id) {
 		}
 	}
 }
+
+//Prints records of all students in the list
 void Print(Students &s) {
 	cout << "\nThe records of the Students : " << endl;
 	for (int i = 0; i < s.getLength(); i++) {
@@ -115,26 +130,43 @@ void Print(Students &s) {
 		cout << "------------------------------------------------" << endl;
 	}
 }
+
 int main() {
+	
+	//Declaring Students object with a size of 30 records 
 	Students s(30);
-	record r1 = { 111111,"Feras","Mohammed",'A'}
-	, r2 = { 111112,"Suhaib","Mohammed",'A' }
-	, r3 = {111113,"Yahya","Mohammed",'B'}
-	, r4 = {111114,"Mohammed","Ahmed",'D'};
+	
+	//Declaring 4 new records
+	record  r1 = { 111111,"Feras", "Mohammed", 'A'},
+		r2 = { 111112, "Suhaib", "Mohammed", 'A' },
+		r3 = {111113, "Yahya", "Mohammed", 'B'},
+		r4 = {111114, "Mohammed", "Ahmed", 'D'};
+	
+	//Adding 4 students records above to the list 
 	Insert(s, r1);
 	Insert(s, r2);
 	Insert(s, r3);
 	Insert(s, r4);
+	
+	//Removing student with ID 111112 from the list
 	Delete(s, 111112);
-	record r5 ={132801,"Mohammed","Habash",'A'}//this is me
-		, r6={111115,"Mahmoud","Hasan",'C'}
-	, r7 = { 111116,"Hasan","Hosni",'B' };
+	
+	//Adding 3 more students
+	record  r5 ={132801, "Mohammed","Habash", 'A'},
+		r6 ={111115, "Mahmoud", "Hasan", 'C'},
+	 	r7 = { 111116, "Hasan", "Hosni", 'B'};
 	Insert(s, r5);
 	Insert(s, r6);
 	Insert(s, r7);
-	Delete(s, 123456); //this does not exist
-	cout << "Location of Student with ID 132801 : " << Search(s, 132801) << endl;
-	Retrieve(s, 132801);
-	Print(s);
+	
+	
+	Delete(s, 123456); //this student ID does not exist, gives a feedback that informs non-existence of student.
+	
+	cout << "Location of Student with ID 132801 : " << Search(s, 132801) << endl; //Returns student location in the list
+	
+	Retrieve(s, 132801); //Prints info of student with ID 132801
+	
+	Print(s); //Prints records of all students in the list
+	
 	return 0;
 }
